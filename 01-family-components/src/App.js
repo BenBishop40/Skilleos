@@ -24,11 +24,16 @@ const famille = {
         nom: "Mesca",
         age: 15,
     },
+    membre6: {
+        nom: "Doug",
+        age: 55,
+    },
 };
 
 class App extends Component {
     state = {
         famille,
+        isShow: false,
     };
 
     // 3 étapes pr incrémenter l'âge memebre 1; copie du objet famille, modif age puis màj du state
@@ -38,28 +43,54 @@ class App extends Component {
         this.setState({ famille });
     };
     // gestion event input pr modifier le state du nom membre1 de famille
-    handleChange = (event) => {
+    handleChange = (event, id) => {
         const famille = { ...this.state.famille };
         const nom = event.target.value;
-        famille.membre1.nom = nom;
+        famille[id].nom = nom;
         this.setState({ famille });
+    };
+
+    // gestion event input pr modifier le state du nom membre1 de famille
+    hideName = (id) => {
+        const famille = { ...this.state.famille };
+        famille[id].nom = "X";
+        this.setState({ famille });
+    };
+
+    handleShowDescription = () => {
+        const isShow = !this.state.isShow;
+        this.setState({ isShow });
     };
 
     render() {
         // Déstructuration des appels de props et state
         const { titre } = this.props;
-        const { famille } = this.state;
+        const { famille, isShow } = this.state;
+
+        let description = null;
+        if (isShow) {
+            description = <strong>je suis un chat malin</strong>;
+        }
+
+        const liste = Object.keys(famille).map((membre) => (
+            <Membre
+                key={membre}
+                handleChange={(event) => this.handleChange(event, membre)}
+                hideName={() => this.hideName(membre)}
+                age={famille[membre].age}
+                nom={famille[membre].nom}
+            />
+        ));
+        console.log(liste);
+
         return (
             <div className="App">
                 <h1>{titre}</h1>
-                <input value={famille.membre1.nom} onChange={this.handleChange} type="text"></input>
-                <Membre nom={famille.membre1.nom} age={famille.membre1.age} />
-                <Membre nom={famille.membre2.nom} age={famille.membre2.age} />
-                <Membre nom={famille.membre3.nom} age={famille.membre3.age} />
-                <Membre nom={famille.membre4.nom} age={famille.membre4.age} />
-                <Membre nom={famille.membre5.nom} age={famille.membre5.age}>
-                    <strong>je suis un chat félin</strong>
-                </Membre>
+
+                {liste}
+                {description}
+                <button onClick={this.handleShowDescription}>{isShow ? "Cacher" : "Montrer"}</button>
+
                 <Button vieillir={() => this.handleClick(2)} />
             </div>
         );
