@@ -6,6 +6,7 @@ import Connexion from "./components/Connexion";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NotFound from "./components/NotFound";
+import { element } from "prop-types";
 
 const Root = () => (
     <BrowserRouter>

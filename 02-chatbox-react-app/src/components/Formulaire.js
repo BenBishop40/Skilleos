@@ -11,7 +11,7 @@ class Formulaire extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        
+
         console.log("Submit!");
     };
 

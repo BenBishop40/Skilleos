@@ -6,7 +6,7 @@ import Message from "./components/Message";
 class App extends Component {
     state = {
         messages: {},
-        pseudo: '',
+        pseudo: "",
     };
 
     addMessage = (message) => {
