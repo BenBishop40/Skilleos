@@ -18,7 +18,7 @@ class Connexion extends Component {
 
     render() {
         if (this.state.goToChat) {
-            return <Navigate to={`/pseudo/${this.state.pseudo}`} />;
+            return <Navigate push to={`/pseudo/${this.state.pseudo}`} />;
         }
 
         return (

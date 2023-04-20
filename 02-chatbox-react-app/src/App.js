@@ -1,30 +1,33 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import "./App.css";
 import Formulaire from "./components/Formulaire";
 import Message from "./components/Message";
+import { useParams } from "react-router-dom";
 
-class App extends Component {
-    state = {
-        messages: {},
-        pseudo: "",
-    };
+function App () {
 
-    addMessage = (message) => {
+    const pseudoURL = useParams();
+    console.log(pseudoURL);
+
+    const [messages, setMessages] = useState({  });
+    const [pseudo, setPseudo] = useState(pseudoURL);
+
+
+    const addMessage = (message) => {
         const messages = { ...this.state.messages };
         messages[`message-${Date.now()}`] = message;
-        this.setState({ messages });
+        setMessages({ messages });
     };
-    render() {
-        return (
-            <div className="box">
-                <div>
-                    <div className="messages">
-                        <Message />
-                    </div>
+
+    return (
+        <div className="box">
+            <div>
+                <div className="messages">
+                    <Message />
                 </div>
-                <Formulaire addMessage={this.addMessage} />
             </div>
-        );
-    }
+            <Formulaire addMessage={addMessage} />
+        </div>
+    );
 }
 export default App;

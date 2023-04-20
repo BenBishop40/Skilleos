@@ -6,12 +6,11 @@ class Formulaire extends Component {
     };
 
     createMessage = () => {
-        const { addMessage, pseudo } = this.props;
+        // const { addMessage, pseudo } = this.props;
     };
 
     handleSubmit = (event) => {
         event.preventDefault();
-
         console.log("Submit!");
     };
 
