@@ -4,19 +4,17 @@ import Formulaire from "./components/Formulaire";
 import Message from "./components/Message";
 import { useParams } from "react-router-dom";
 
-function App () {
-
+function App() {
     const pseudoURL = useParams();
-    console.log(pseudoURL);
+    const pseudo = pseudoURL.pseudo;
 
-    const [messages, setMessages] = useState({  });
-    const [pseudo, setPseudo] = useState(pseudoURL);
-
+    const [messages, setMessages] = useState({});
 
     const addMessage = (message) => {
-        const messages = { ...this.state.messages };
-        messages[`message-${Date.now()}`] = message;
-        setMessages({ messages });
+        const newMessages = { ...messages };
+        newMessages[`message-${Date.now()}`] = message;
+        setMessages({ newMessages });
+        console.log(message);
     };
 
     return (
@@ -26,7 +24,7 @@ function App () {
                     <Message />
                 </div>
             </div>
-            <Formulaire addMessage={addMessage} />
+            <Formulaire addMessage={addMessage} pseudo={pseudo} />
         </div>
     );
 }
