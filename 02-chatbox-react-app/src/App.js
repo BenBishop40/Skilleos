@@ -8,8 +8,8 @@ function App() {
     const pseudoURL = useParams();
     const pseudo = pseudoURL.pseudo;
 
+    // var etat messages et actualisation ajout message
     const [messages, setMessages] = useState({});
-
     const addMessage = (message) => {
         const newKey = `message-${Date.now()}`;
         setMessages((messages) => ({ ...messages, [newKey]: message }));
@@ -23,7 +23,7 @@ function App() {
                     <Message />
                 </div>
             </div>
-            <Formulaire addMessage={addMessage} pseudo={pseudo} />
+            <Formulaire addMessage={addMessage} pseudo={pseudo} length={140} />
         </div>
     );
 }
