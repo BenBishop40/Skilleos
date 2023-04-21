@@ -11,11 +11,10 @@ function App() {
     const [messages, setMessages] = useState({});
 
     const addMessage = (message) => {
-        const newMessages = { ...messages };
-        newMessages[`message-${Date.now()}`] = message;
-        setMessages({ newMessages });
-        console.log(message);
+        const newKey = `message-${Date.now()}`;
+        setMessages((messages) => ({ ...messages, [newKey]: message }));
     };
+    console.log(messages);
 
     return (
         <div className="box">
