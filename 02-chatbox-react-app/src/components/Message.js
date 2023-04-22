@@ -1,12 +1,11 @@
 import React from "react";
 
-const Message = () => {
+const Message = ({ pseudo, message }) => {
     return (
         <>
-            <p className="user-message">Mon message tarba</p>
-            <p className="user-message">Mon 2nd message potiok des landes</p>
+            <p className="user-message">{message}</p>
         </>
-    )
+    );
 };
 
 export default Message;

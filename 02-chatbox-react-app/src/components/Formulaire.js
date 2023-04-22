@@ -20,7 +20,6 @@ class Formulaire extends Component {
     handleSubmit = (event) => {
         event.preventDefault();
         this.createMessage();
-        console.log("Submit!");
     };
 
     handleChange = (event) => {
