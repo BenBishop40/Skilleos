@@ -6,6 +6,7 @@ class Formulaire extends Component {
         length: this.props.length,
     };
 
+    // creer message avec props
     createMessage = () => {
         const { addMessage, pseudo, length } = this.props;
         const message = {
@@ -17,19 +18,21 @@ class Formulaire extends Component {
         this.setState({ message: "", length });
     };
 
+    // submit form et lct fction createmessage
     handleSubmit = (event) => {
         event.preventDefault();
         this.createMessage();
     };
 
+    // gestion du state input et decompte length
     handleChange = (event) => {
         const message = event.target.value;
         const length = this.props.length - message.length;
         this.setState({ message, length });
     };
-
+    // Validation avec Enter - gestion event
     handleKeyUp = (event) => {
-        if (event.key === 'Enter') {
+        if (event.key === "Enter") {
             this.createMessage();
         }
     };

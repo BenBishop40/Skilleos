@@ -4,6 +4,9 @@ import Formulaire from "./components/Formulaire";
 import Message from "./components/Message";
 import { useParams } from "react-router-dom";
 
+// Firebase
+// import base from "./base";
+
 function App() {
     const pseudoURL = useParams();
     const pseudo = pseudoURL.pseudo;

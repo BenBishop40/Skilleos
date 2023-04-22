@@ -54,7 +54,7 @@ body {
 	max-width: 500px;
 	height: calc(100vh - 100px);
 	padding: 50px 0;
-	/*border: 5px solid purple;*/
+	/* border: 5px solid purple; */
 }
 
 .box > * {
@@ -66,11 +66,12 @@ body {
 ---------------------------- */
 
 .messages {
-	flex: 1 1 100%;
-	/*border: 5px solid red;*/
+	flex: .5 1 100%;
+	/* border: 5px solid red; */
 	box-sizing: border-box;
 	align-self: flex-end;
 	max-height: calc(100vh - 310px);
+	width: 50%;
 	overflow-y: scroll;
 	-webkit-overflow-scrolling:touch;
 }
