@@ -8,7 +8,7 @@ import { getDatabase } from "firebase/database";
 const firebaseConfig = {
     apiKey: "AIzaSyBE8T-Q_nNQS4ub9n_6IgzJt8P46eRmIoY",
     authDomain: "chatbox-app-41509.firebaseapp.com",
-    databaseURL: "https://chatbox-app-41509-default-rtdb.europe-west1.firebasedatabase.app/",
+    databaseURL: "https://chatbox-app-41509-default-rtdb.europe-west1.firebasedatabase.app",
     projectId: "chatbox-app-41509",
     storageBucket: "chatbox-app-41509.appspot.com",
     messagingSenderId: "943553491590",
