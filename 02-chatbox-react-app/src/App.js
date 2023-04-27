@@ -11,7 +11,6 @@ import { onValue, ref, set } from "firebase/database";
 function App() {
     const pseudoURL = useParams();
     const pseudo = pseudoURL.pseudo;
-    console.log(pseudo);
 
     // var etat messages et fonction ajout message avec key unique
     const [messages, setMessages] = useState({});
@@ -36,8 +35,6 @@ function App() {
         // Ecriture message en base
         set(ref(base, `/messages/${pseudo}/${newKey}`), message);
     };
-
-    console.log(messages);
 
     return (
         <div className="box">
