@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, createRef } from "react";
 import "./App.css";
 import Formulaire from "./components/Formulaire";
 import Message from "./components/Message";
@@ -12,8 +12,16 @@ function App() {
     const pseudoURL = useParams();
     const pseudo = pseudoURL.pseudo;
 
-    // var etat messages et fonction ajout message avec key unique
+    // var etat messages
     const [messages, setMessages] = useState({});
+
+    // creation ref messages
+    const messageRefScroll = createRef();
+
+    useEffect(() => {
+        // Défiler scroll auto à publi message
+        messageRefScroll.current.scrollTop = messageRefScroll.current.scrollHeight;
+    }, [messageRefScroll]);
 
     useEffect(() => {
         // Création d'une référence à l'emplacement des messages dans la base de données Firebase
@@ -28,18 +36,19 @@ function App() {
         });
     }, [pseudo]);
 
+    // fonction ajout message avec key unique "message-timestamp"
     const addMessage = (message) => {
         const newKey = `message-${Date.now()}`;
         // Mise à jour state messages
         setMessages((messages) => ({ ...messages, [newKey]: message }));
-        // Ecriture message en base
+        // Ecriture message ds dB Firebase
         set(ref(base, `/messages/${pseudo}/${newKey}`), message);
     };
 
     return (
         <div className="box">
             <div>
-                <div className="messages">
+                <div className="messages" ref={messageRefScroll}>
                     {Object.keys(messages).map((key) => (
                         <Message key={key} message={messages[key].message} pseudo={messages[key].pseudo} />
                     ))}
