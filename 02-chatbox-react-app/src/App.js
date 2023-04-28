@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 
 // Firebase
 import base from "./base";
-import { onValue, ref, set } from "firebase/database";
+import { onValue, ref, set, remove } from "firebase/database";
 
 function App() {
     const pseudoURL = useParams();
@@ -32,6 +32,16 @@ function App() {
             const data = snapshot.val();
             if (data) {
                 setMessages(data);
+
+                // Suppression des messages anciens au delà de 10
+                const messagesKeys = Object.keys(data);
+                if (messagesKeys.length > 10) {
+                    const messagesToDelete = messagesKeys.slice(0, messagesKeys.length - 10);
+                    messagesToDelete.forEach((key) => {
+                        const messageRef = ref(base, `/messages/${pseudo}/${key}`);
+                        remove(messageRef);
+                    });
+                }
             }
         });
     }, [pseudo]);
@@ -39,6 +49,7 @@ function App() {
     // fonction ajout message avec key unique "message-timestamp"
     const addMessage = (message) => {
         const newKey = `message-${Date.now()}`;
+
         // Mise à jour state messages
         setMessages((messages) => ({ ...messages, [newKey]: message }));
         // Ecriture message ds dB Firebase
