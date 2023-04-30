@@ -63,6 +63,7 @@ function App() {
     // identification boolen sur pseudo message = pseudo URL
     const isUser = (pseudo) => pseudo === pseudoURL.pseudo;
 
+    // 
     const messagesToDisplay = Object.keys(messages).map((key) => (
         <CSSTransition key={key} timeout={2000} classNames="fade">
             <Message isUser={isUser} message={messages[key].message} pseudo={messages[key].pseudo} />
@@ -71,9 +72,9 @@ function App() {
 
     return (
         <div className="box">
-                <div className="messages" ref={messageRefScroll}>
-                    <TransitionGroup className="message">{messagesToDisplay}</TransitionGroup>
-                </div>
+            <div className="messages" ref={messageRefScroll}>
+                <TransitionGroup className="message">{messagesToDisplay}</TransitionGroup>
+            </div>
             <Formulaire addMessage={addMessage} pseudo={pseudo} length={140} />
         </div>
     );
