@@ -1,13 +1,16 @@
 import React, { useEffect, useState, createRef } from "react";
 import "./App.css";
-import Formulaire from "./components/Formulaire";
-import Message from "./components/Message";
+import "./animations.css"
+import Formulaire from "./Formulaire";
+import Message from "./Message";
 import { useParams } from "react-router-dom";
 
 // Firebase
 import base from "./base";
 import { onValue, ref, set, remove } from "firebase/database";
-// import { limitToLast } from "firebase/database";
+
+// Animation messages
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 function App() {
     const pseudoURL = useParams();
@@ -27,8 +30,6 @@ function App() {
     useEffect(() => {
         // Création d'une référence à l'emplacement des messages dans la base de données Firebase
         const messagesRef = ref(base, "/");
-        // ne fonctionne pas la limite de messages.....!!!!!
-        // const lastMessagesRef = limitToLast(messagesRef.orderByKey(), 10);
 
         // Ecouter les modifications de données en temps réel à cet emplacement dans la base de données Firebase
         onValue(messagesRef, (snapshot) => {
@@ -68,12 +69,13 @@ function App() {
                 <div className="messages" ref={messageRefScroll}>
                     <div className="message">
                         {Object.keys(messages).map((key) => (
-                            <Message
-                                key={key}
-                                isUser={isUser}
-                                message={messages[key].message}
-                                pseudo={messages[key].pseudo}
-                            />
+                            <CSSTransition key={key} timeout={1000} classNames={"fade"}>
+                                <Message
+                                    isUser={isUser}
+                                    message={messages[key].message}
+                                    pseudo={messages[key].pseudo}
+                                />
+                            </CSSTransition>
                         ))}
                     </div>
                 </div>
