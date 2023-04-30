@@ -1,8 +1,8 @@
 import React, { useEffect, useState, createRef } from "react";
-import "./App.css";
-import "./animations.css"
-import Formulaire from "./Formulaire";
-import Message from "./Message";
+import "./components/App.css";
+import "./components/animations.css";
+import Formulaire from "./components/Formulaire";
+import Message from "./components/Message";
 import { useParams } from "react-router-dom";
 
 // Firebase
@@ -63,23 +63,17 @@ function App() {
     // identification boolen sur pseudo message = pseudo URL
     const isUser = (pseudo) => pseudo === pseudoURL.pseudo;
 
+    const messagesToDisplay = Object.keys(messages).map((key) => (
+        <CSSTransition key={key} timeout={2000} classNames="fade">
+            <Message isUser={isUser} message={messages[key].message} pseudo={messages[key].pseudo} />
+        </CSSTransition>
+    ));
+
     return (
         <div className="box">
-            <div>
                 <div className="messages" ref={messageRefScroll}>
-                    <div className="message">
-                        {Object.keys(messages).map((key) => (
-                            <CSSTransition key={key} timeout={1000} classNames={"fade"}>
-                                <Message
-                                    isUser={isUser}
-                                    message={messages[key].message}
-                                    pseudo={messages[key].pseudo}
-                                />
-                            </CSSTransition>
-                        ))}
-                    </div>
+                    <TransitionGroup className="message">{messagesToDisplay}</TransitionGroup>
                 </div>
-            </div>
             <Formulaire addMessage={addMessage} pseudo={pseudo} length={140} />
         </div>
     );

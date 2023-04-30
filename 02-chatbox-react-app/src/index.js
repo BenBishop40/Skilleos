@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom/client";
-import "./index.css";
+import "./components/index.css";
 import App from "./App";
-import Connexion from "./Connexion";
+import Connexion from "./components/Connexion";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import NotFound from "./NotFound";
+import NotFound from "./components/NotFound";
 
 class Root extends Component {
     render() {

@@ -1,7 +1,6 @@
 import React from "react";
 
 const Message = ({ pseudo, message, isUser }) => {
-    
     if (isUser(pseudo)) {
         return (
             <>
@@ -11,7 +10,10 @@ const Message = ({ pseudo, message, isUser }) => {
     } else {
         return (
             <>
-                <p className="not-user-message"><strong>{pseudo}: </strong>{message}</p>
+                <p className="not-user-message">
+                    <strong>{pseudo}: </strong>
+                    {message}
+                </p>
             </>
         );
     }
