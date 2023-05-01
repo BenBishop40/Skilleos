@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 // import CSS
 import "./App.css";
 // import components
@@ -7,6 +6,10 @@ import Header from "./components/Header";
 import Admin from "./components/Admin";
 import recettes from "./recettes";
 import Card from "./components/Card";
+
+// Import Firebase
+// import base from "./base";
+// import { onValue, ref, set } from "firebase/database";
 
 import { useParams } from "react-router-dom";
 
