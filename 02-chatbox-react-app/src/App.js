@@ -63,9 +63,9 @@ function App() {
     // identification boolen sur pseudo message = pseudo URL
     const isUser = (pseudo) => pseudo === pseudoURL.pseudo;
 
-    // 
+    // Identification des compon. transition CSS crée pour messages
     const messagesToDisplay = Object.keys(messages).map((key) => (
-        <CSSTransition key={key} timeout={2000} classNames="fade">
+        <CSSTransition key={key} timeout={200} classNames="fade">
             <Message isUser={isUser} message={messages[key].message} pseudo={messages[key].pseudo} />
         </CSSTransition>
     ));
