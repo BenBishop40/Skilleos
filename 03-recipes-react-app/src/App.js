@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 // import CSS
 import "./App.css";
 // import components
@@ -8,8 +8,8 @@ import recettes from "./recettes";
 import Card from "./components/Card";
 
 // Import Firebase
-// import base from "./base";
-// import { onValue, ref, set } from "firebase/database";
+import base from "./base";
+import { ref, set, onValue } from "firebase/database";
 
 import { useParams } from "react-router-dom";
 
@@ -25,6 +25,30 @@ function App() {
 
     // Recettes cards -> depuis le state analyse et affiche les details transmis en props à Card
     const cards = Object.keys(stateRecettes).map((key) => <Card key={key} details={stateRecettes[key]}></Card>);
+
+    // Fonction pour sauvegarder les données dans Firebase
+    const saveRecettes = () => {
+        // écriture des datas ds le noeud "recettes" de Firebase
+        set(ref(base, `/${pseudo}/recettes`), stateRecettes);
+    };
+    saveRecettes();
+
+    // Utilisation de useEffect pour écouter les modifications apportées à "recettes" et mettre à jour l'état stateRecettes
+    useEffect(() => {
+        // Création d'un gestionnaire pour l'événement "value" de Firebase
+        const recettesRef = ref(base,  `/${pseudo}/recettes`);
+        const recettesHandler = onValue(recettesRef, (snapshot) => {
+            const recettesData = snapshot.val();
+            if (recettesData) {
+                setStateRecettes(recettesData);
+            }
+        });
+
+        // Retour de la fonction pour nettoyer le gestionnaire lors du démontage du composant
+        return () => {
+            recettesHandler();
+        };
+    }, [pseudo]);
 
     return (
         <div className="box">
