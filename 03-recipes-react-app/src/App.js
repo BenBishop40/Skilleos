@@ -50,12 +50,18 @@ function App() {
         };
     }, [pseudo]);
 
+    const addRecette = (recette) => {
+        const recettes = { ...stateRecettes }
+        recettes[`recette-${Date.now()}`] = recette;
+        setStateRecettes(recettes);
+    }
+
     return (
         <div className="box">
             <Header pseudo={pseudo}></Header>
             <h1>Bonjour {pseudo}</h1>
             <div className="cards">{cards}</div>
-            <Admin chargerExemple={chargerExemple}></Admin>
+            <Admin addRecette={addRecette} chargerExemple={chargerExemple}></Admin>
         </div>
     );
 }
