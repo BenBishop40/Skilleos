@@ -14,10 +14,25 @@ class AddRecette extends Component {
         this.setState({ [name]: value });
     };
 
+    // Validation formulaire
+    handleSubmit = (event) => {
+        event.preventDefault();
+        const recette = { ...this.state };
+        this.props.addRecette(recette);
+        // Reset formulaire
+        const newForm = Object.assign({}, recette, {
+            nom: "",
+            image: "",
+            ingredients: "",
+            instructions: "",
+        });
+        this.setState(newForm);
+    };
+
     render() {
         return (
             <div className="card">
-                <form className="admin-form ajouter-recette">
+                <form className="admin-form ajouter-recette" onSubmit={this.handleSubmit}>
                     <input
                         name="nom"
                         value={this.state.nom}
@@ -46,6 +61,7 @@ class AddRecette extends Component {
                         rows="15"
                         placeholder="Liste des instructions"
                     />
+                    <button type="submit">Ajouter une recette +</button>
                 </form>
             </div>
         );

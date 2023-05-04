@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import AddRecette from "./AddRecette";
 import Login from "./Login";
+import AdminForm from "./AdminForm";
 
 // import firebase / authentification
 // import firebase from "firebase/app";
@@ -8,6 +9,7 @@ import { FacebookAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
 import "firebase/auth";
 import base, { firebaseApp } from "../base";
 import { get, ref, set } from "firebase/database";
+import recettes from "../recettes";
 
 class Admin extends Component {
     state = {
@@ -48,21 +50,27 @@ class Admin extends Component {
     };
 
     render() {
-        const { addRecette, chargerExemple } = this.props;
+        const { addRecette, chargerExemple, modifyRecette } = this.props;
 
         // Si utilisateur non connecté
         if (!this.state.uid) {
             return <Login authenticate={this.authenticate} />;
         }
 
-        if(this.state.uid !== this.state.chef) {
-            return(
-                <div><p>Tu n'es pas le chef de cette recette !</p></div>
-            )
+        if (this.state.uid !== this.state.chef) {
+            return (
+                <div>
+                    <p>Tu n'es pas le chef de cette recette !</p>
+                </div>
+            );
         }
         return (
             <div className="cards">
                 <AddRecette addRecette={addRecette}></AddRecette>
+                {Object.keys(recettes).map((key) => (
+                    <AdminForm key={key} id={key} modifyRecette={modifyRecette} recettes={recettes}></AdminForm>
+                ))}
+
                 <footer>
                     <button onClick={chargerExemple}>Remplir</button>
                 </footer>

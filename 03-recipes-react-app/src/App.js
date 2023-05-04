@@ -57,12 +57,18 @@ function App() {
         setStateRecettes(recettes);
     };
 
+    const modifyRecette = (key, newRecette) => {
+        const recettes = { ...stateRecettes };
+        recettes[key] = newRecette;
+        setStateRecettes(recettes);
+    };
+
     return (
         <div className="box">
             <Header pseudo={pseudo}></Header>
             <h1>Bonjour {pseudo}</h1>
             <div className="cards">{cards}</div>
-            <Admin pseudo={pseudo} addRecette={addRecette} chargerExemple={chargerExemple}></Admin>
+            <Admin pseudo={pseudo} addRecette={addRecette} modifyRecette={modifyRecette} chargerExemple={chargerExemple}></Admin>
         </div>
     );
 }
