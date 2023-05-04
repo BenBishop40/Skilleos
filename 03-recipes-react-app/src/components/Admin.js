@@ -6,7 +6,8 @@ import Login from "./Login";
 // import firebase from "firebase/app";
 import { FacebookAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
 import "firebase/auth";
-import { firebaseApp } from "../base";
+import base, { firebaseApp } from "../base";
+import { get, ref, set } from "firebase/database";
 
 class Admin extends Component {
     state = {
@@ -14,14 +15,36 @@ class Admin extends Component {
         chef: null,
     };
 
-    handleAuth = (authData) => {
-        console.log(authData);
+    // Function async check data user en base sinon dégage ,
+
+    handleAuth = async (authData) => {
+        console.log(authData.user.uid);
+        const auth = getAuth(firebaseApp);
+        if (!auth.currentUser) return;
+
+        // check emplacement firebase/pseudo et récupération data
+        const box = ref(base, `/${this.props.pseudo}`);
+        const data = await get(box);
+
+        // check si chef existe sinon écriture ds firebase du uid d auth Facebook
+        if (!data.chef) {
+            var boxRef = ref(base, `${this.props.pseudo}/chef`);
+            const chef = set(boxRef, authData.user.uid);
+            console.log(chef);
+        }
+
+        // màj uid et chef pdt authentification FB
+        this.setState({
+            uid: authData.user.uid,
+            chef: data.chef || authData.user.uid,
+        });
     };
 
-    authenticate = () => {
+    // Fonction authentification Facebook
+    authenticate = async () => {
         const provider = new FacebookAuthProvider();
         const auth = getAuth(firebaseApp);
-        signInWithPopup(auth, provider).then(this.handleAuth);
+        await signInWithPopup(auth, provider).then(this.handleAuth);
     };
 
     render() {
@@ -30,6 +53,12 @@ class Admin extends Component {
         // Si utilisateur non connecté
         if (!this.state.uid) {
             return <Login authenticate={this.authenticate} />;
+        }
+
+        if(this.state.uid !== this.state.chef) {
+            return(
+                <div><p>Tu n'es pas le chef de cette recette !</p></div>
+            )
         }
         return (
             <div className="cards">

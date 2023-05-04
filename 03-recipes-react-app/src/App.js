@@ -34,9 +34,10 @@ function App() {
     saveRecettes();
 
     // Utilisation de useEffect pour écouter les modifications apportées à "recettes" et mettre à jour l'état stateRecettes
+    // charger recettes sur page
     useEffect(() => {
         // Création d'un gestionnaire pour l'événement "value" de Firebase
-        const recettesRef = ref(base,  `/${pseudo}/recettes`);
+        const recettesRef = ref(base, `/${pseudo}/recettes`);
         const recettesHandler = onValue(recettesRef, (snapshot) => {
             const recettesData = snapshot.val();
             if (recettesData) {
@@ -51,17 +52,17 @@ function App() {
     }, [pseudo]);
 
     const addRecette = (recette) => {
-        const recettes = { ...stateRecettes }
+        const recettes = { ...stateRecettes };
         recettes[`recette-${Date.now()}`] = recette;
         setStateRecettes(recettes);
-    }
+    };
 
     return (
         <div className="box">
             <Header pseudo={pseudo}></Header>
             <h1>Bonjour {pseudo}</h1>
             <div className="cards">{cards}</div>
-            <Admin addRecette={addRecette} chargerExemple={chargerExemple}></Admin>
+            <Admin pseudo={pseudo} addRecette={addRecette} chargerExemple={chargerExemple}></Admin>
         </div>
     );
 }
