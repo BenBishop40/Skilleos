@@ -29,7 +29,6 @@ function App() {
         // écriture des datas ds le noeud "recettes" de Firebase
         set(ref(base, `/${pseudo}/recettes`), stateRecettes);
     };
-    saveRecettes();
 
     // Utilisation de useEffect pour écouter les modifications apportées à "recettes" et mettre à jour l'état stateRecettes
     // charger recettes sur page
@@ -53,18 +52,25 @@ function App() {
         const recettes = { ...stateRecettes };
         recettes[`recette-${Date.now()}`] = recette;
         setStateRecettes(recettes);
+        saveRecettes();
     };
 
     const modifyRecette = (key, newRecette) => {
         const recettes = { ...stateRecettes };
         recettes[key] = newRecette;
         setStateRecettes(recettes);
+        saveRecettes();
     };
 
     const deleteRecette = (key) => {
         const recettes = { ...stateRecettes };
         recettes[key] = null;
         setStateRecettes(recettes);
+        console.log(recettes);
+        const recetteRef = ref(base, `/${pseudo}/recettes/${key}`);
+        set(recetteRef, null)
+            .then(() => console.log(`Recette avec la clé ${key} supprimée de Firebase.`))
+            .catch((err) => console.log(err));
     };
 
     // fonction charger recettes dans le state

@@ -6,7 +6,7 @@ import AdminForm from "./AdminForm";
 
 // import firebase / authentification
 // import firebase from "firebase/app";
-import { FacebookAuthProvider, getAuth, signInWithPopup, signOut } from "firebase/auth";
+import { FacebookAuthProvider, getAuth, onAuthStateChanged, signInWithPopup, signOut } from "firebase/auth";
 import "firebase/auth";
 import base, { firebaseApp } from "../base";
 import { get, ref, set } from "firebase/database";
@@ -16,6 +16,15 @@ class Admin extends Component {
         uid: null,
         chef: null,
     };
+
+    componentDidMount() {
+        const auth = getAuth(firebaseApp);
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                this.handleAuth({ user });
+            }
+        });
+    }
 
     // Function async check data user en base sinon dégage ,
 
