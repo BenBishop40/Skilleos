@@ -50,7 +50,7 @@ function App() {
 
     const addRecette = (recette) => {
         const recettes = { ...stateRecettes };
-        const newKey = `recette-${Date.now()}`
+        const newKey = `recette-${Date.now()}`;
         recettes[newKey] = recette;
         setStateRecettes(recettes);
         console.log(recettes);
@@ -78,8 +78,10 @@ function App() {
     };
 
     // fonction charger recettes dans le state
-    const chargerExemple = () => setStateRecettes(recettes);
-
+    const chargerExemple = () => {
+        setStateRecettes(recettes);
+    };
+    
     return (
         <div className="box">
             <Header pseudo={pseudo}></Header>

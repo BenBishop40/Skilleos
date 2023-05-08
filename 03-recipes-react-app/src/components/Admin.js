@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import AddRecette from "./AddRecette";
 import Login from "./Login";
 import AdminForm from "./AdminForm";
@@ -58,12 +58,12 @@ class Admin extends Component {
         await signInWithPopup(auth, provider).then(this.handleAuth);
     };
 
-    // Deconnexion
+    // Deconnexion Firebase
     logout = async () => {
         const auth = getAuth(firebaseApp);
         await signOut(auth)
             .then(() => {
-                console.log("déconnexion");
+                console.log("déconnexion Firebase");
                 this.setState({ uid: null });
             })
             .catch((error) => {
@@ -90,23 +90,25 @@ class Admin extends Component {
         }
 
         return (
-            <div className="cards">
-                <AddRecette addRecette={addRecette}></AddRecette>
-                {Object.keys(recettes).map((key) => (
-                    <AdminForm
-                        key={key}
-                        id={key}
-                        modifyRecette={modifyRecette}
-                        recettes={recettes}
-                        deleteRecette={deleteRecette}
-                    ></AdminForm>
-                ))}
+            <Fragment>
+                <div className="cards">
+                    <AddRecette addRecette={addRecette}></AddRecette>
+                    {Object.keys(recettes).map((key) => (
+                        <AdminForm
+                            key={key}
+                            id={key}
+                            modifyRecette={modifyRecette}
+                            recettes={recettes}
+                            deleteRecette={deleteRecette}
+                        ></AdminForm>
+                    ))}
 
-                <footer>
-                    {logout}
-                    <button onClick={chargerExemple}>Remplir</button>
-                </footer>
-            </div>
+                    <footer>
+                        {logout}
+                        <button onClick={chargerExemple}>Remplir</button>
+                    </footer>
+                </div>
+            </Fragment>
         );
     }
 }
