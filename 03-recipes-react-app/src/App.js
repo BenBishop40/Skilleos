@@ -50,9 +50,14 @@ function App() {
 
     const addRecette = (recette) => {
         const recettes = { ...stateRecettes };
-        recettes[`recette-${Date.now()}`] = recette;
+        const newKey = `recette-${Date.now()}`
+        recettes[newKey] = recette;
         setStateRecettes(recettes);
-        saveRecettes();
+        console.log(recettes);
+        const recetteRef = ref(base, `/${pseudo}/recettes/${newKey}`);
+        set(recetteRef, recette)
+            .then(() => console.log(`Recette avec la clé ${newKey} ajoutée dans Firebase.`))
+            .catch((err) => console.log(err));
     };
 
     const modifyRecette = (key, newRecette) => {
@@ -66,7 +71,6 @@ function App() {
         const recettes = { ...stateRecettes };
         recettes[key] = null;
         setStateRecettes(recettes);
-        console.log(recettes);
         const recetteRef = ref(base, `/${pseudo}/recettes/${key}`);
         set(recetteRef, null)
             .then(() => console.log(`Recette avec la clé ${key} supprimée de Firebase.`))
