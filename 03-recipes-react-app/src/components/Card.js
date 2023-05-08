@@ -1,6 +1,11 @@
 import React from "react";
 
 const Card = ({ details }) => {
+
+    if(!details) {
+        return <div>Cette recette a été supprimée</div>
+    }
+
     // création liste li ingredients
     const ingredients = details.ingredients.split(",").map((item) => <li key={item}>{item}</li>);
     // création liste li instructions

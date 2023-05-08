@@ -20,8 +20,6 @@ function App() {
 
     // Var etat recettes importés
     const [stateRecettes, setStateRecettes] = useState({});
-    // fonction charger recettes dans le state
-    const chargerExemple = () => setStateRecettes(recettes);
 
     // Recettes cards -> depuis le state analyse et affiche les details transmis en props à Card
     const cards = Object.keys(stateRecettes).map((key) => <Card key={key} details={stateRecettes[key]}></Card>);
@@ -63,12 +61,28 @@ function App() {
         setStateRecettes(recettes);
     };
 
+    const deleteRecette = (key) => {
+        const recettes = { ...stateRecettes };
+        recettes[key] = null;
+        setStateRecettes(recettes);
+    };
+
+    // fonction charger recettes dans le state
+    const chargerExemple = () => setStateRecettes(recettes);
+
     return (
         <div className="box">
             <Header pseudo={pseudo}></Header>
             <h1>Bonjour {pseudo}</h1>
             <div className="cards">{cards}</div>
-            <Admin pseudo={pseudo} addRecette={addRecette} modifyRecette={modifyRecette} chargerExemple={chargerExemple}></Admin>
+            <Admin
+                pseudo={pseudo}
+                addRecette={addRecette}
+                modifyRecette={modifyRecette}
+                chargerExemple={chargerExemple}
+                deleteRecette={deleteRecette}
+                recettes={stateRecettes}
+            ></Admin>
         </div>
     );
 }

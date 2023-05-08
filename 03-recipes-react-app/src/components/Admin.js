@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import AddRecette from "./AddRecette";
 import Login from "./Login";
 import AdminForm from "./AdminForm";
+import recettes from "../recettes";
 
 // import firebase / authentification
 // import firebase from "firebase/app";
@@ -9,9 +10,9 @@ import { FacebookAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
 import "firebase/auth";
 import base, { firebaseApp } from "../base";
 import { get, ref, set } from "firebase/database";
-import recettes from "../recettes";
 
 class Admin extends Component {
+    
     state = {
         uid: null,
         chef: null,
@@ -50,7 +51,7 @@ class Admin extends Component {
     };
 
     render() {
-        const { addRecette, chargerExemple, modifyRecette } = this.props;
+        const { addRecette, chargerExemple, modifyRecette, deleteRecette } = this.props;
 
         // Si utilisateur non connecté
         if (!this.state.uid) {
@@ -68,7 +69,7 @@ class Admin extends Component {
             <div className="cards">
                 <AddRecette addRecette={addRecette}></AddRecette>
                 {Object.keys(recettes).map((key) => (
-                    <AdminForm key={key} id={key} modifyRecette={modifyRecette} recettes={recettes}></AdminForm>
+                    <AdminForm key={key} id={key} modifyRecette={modifyRecette} recettes={recettes} deleteRecette={deleteRecette}></AdminForm>
                 ))}
 
                 <footer>
