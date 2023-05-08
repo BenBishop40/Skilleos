@@ -6,13 +6,12 @@ import AdminForm from "./AdminForm";
 
 // import firebase / authentification
 // import firebase from "firebase/app";
-import { FacebookAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
+import { FacebookAuthProvider, getAuth, signInWithPopup, signOut } from "firebase/auth";
 import "firebase/auth";
 import base, { firebaseApp } from "../base";
 import { get, ref, set } from "firebase/database";
 
 class Admin extends Component {
-    
     state = {
         uid: null,
         chef: null,
@@ -50,8 +49,23 @@ class Admin extends Component {
         await signInWithPopup(auth, provider).then(this.handleAuth);
     };
 
+    // Deconnexion
+    logout = async () => {
+        const auth = getAuth(firebaseApp);
+        await signOut(auth)
+            .then(() => {
+                console.log("déconnexion");
+                this.setState({ uid: null });
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
+
     render() {
         const { recettes, addRecette, chargerExemple, modifyRecette, deleteRecette } = this.props;
+
+        const logout = <button onClick={this.logout}>Déconnexion</button>;
 
         // Si utilisateur non connecté
         if (!this.state.uid) {
@@ -61,6 +75,7 @@ class Admin extends Component {
             return (
                 <div>
                     <p>Tu n'es pas le chef de cette recette !</p>
+                    {logout}
                 </div>
             );
         }
@@ -69,10 +84,17 @@ class Admin extends Component {
             <div className="cards">
                 <AddRecette addRecette={addRecette}></AddRecette>
                 {Object.keys(recettes).map((key) => (
-                    <AdminForm key={key} id={key} modifyRecette={modifyRecette} recettes={recettes} deleteRecette={deleteRecette}></AdminForm>
+                    <AdminForm
+                        key={key}
+                        id={key}
+                        modifyRecette={modifyRecette}
+                        recettes={recettes}
+                        deleteRecette={deleteRecette}
+                    ></AdminForm>
                 ))}
 
                 <footer>
+                    {logout}
                     <button onClick={chargerExemple}>Remplir</button>
                 </footer>
             </div>
