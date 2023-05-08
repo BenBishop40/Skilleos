@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import AddRecette from "./AddRecette";
 import Login from "./Login";
 import AdminForm from "./AdminForm";
-import recettes from "../recettes";
+// import recettes from "../recettes";
 
 // import firebase / authentification
 // import firebase from "firebase/app";
@@ -51,13 +51,12 @@ class Admin extends Component {
     };
 
     render() {
-        const { addRecette, chargerExemple, modifyRecette, deleteRecette } = this.props;
+        const { recettes, addRecette, chargerExemple, modifyRecette, deleteRecette } = this.props;
 
         // Si utilisateur non connecté
         if (!this.state.uid) {
             return <Login authenticate={this.authenticate} />;
         }
-
         if (this.state.uid !== this.state.chef) {
             return (
                 <div>
@@ -65,6 +64,7 @@ class Admin extends Component {
                 </div>
             );
         }
+
         return (
             <div className="cards">
                 <AddRecette addRecette={addRecette}></AddRecette>

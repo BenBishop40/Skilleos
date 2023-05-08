@@ -3,6 +3,10 @@ import React from "react";
 const AdminForm = ({ id: key, modifyRecette, recettes, deleteRecette }) => {
     const recette = recettes[key];
 
+    if (!recette) {
+        return null;
+    }
+
     const handleChange = (event, key) => {
         const { name, value } = event.target;
         const recette = recettes[key];

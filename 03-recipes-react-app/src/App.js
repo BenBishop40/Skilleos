@@ -81,6 +81,7 @@ function App() {
                 modifyRecette={modifyRecette}
                 chargerExemple={chargerExemple}
                 deleteRecette={deleteRecette}
+                recettes={stateRecettes}
             ></Admin>
         </div>
     );
