@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { Navigate } from "react-router-dom";
 
-import withPlaceholder from "../hoc/withPlaceholder";
+import withPlaceholder from "./withPlaceholder";
 
 class Connexion extends Component {
     state = {
