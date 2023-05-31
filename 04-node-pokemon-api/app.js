@@ -16,5 +16,5 @@ app.get(`/api/pokemons/:id`, (req, res) => {
 app.get("/api/pokemons", (req, res) => {
     res.send(`Il y a ${pokemons.length} pokémons dans le pokédex, pour le moment.`);
 });
-// Mise en place écoute serveur sur port définit et log du ${port}
+// Mise en place écoute serveur sur port définit et log du ${port} : 
 app.listen(port, () => console.log(`Application Node démarrée sur port ${port}...`)); // démarrage api rest sur port 3000 et renvoi du log
