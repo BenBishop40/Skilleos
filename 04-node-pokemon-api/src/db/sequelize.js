@@ -14,9 +14,10 @@ const sequelize = new Sequelize("pokedex", "root", "", {
     },
     logging: false,
 });
-
+// Crétaion model Pokemon (permet de créer ensuite les entités selon ce modèle)
 const Pokemon = PokemonModel(sequelize, DataTypes);
 
+// Init de la db avec création des pokemons selon model sequelize
 const initDb = () => {
     return sequelize.sync({ force: true }).then((_) => {
         pokemons.map((pokemon) => {
@@ -25,7 +26,7 @@ const initDb = () => {
                 hp: pokemon.hp,
                 cp: pokemon.cp,
                 picture: pokemon.picture,
-                types: pokemon.types.join(),
+                types: pokemon.types,
             }).then((pokemon) => console.log(pokemon.toJSON()));
         });
         console.log("La base de donnée a bien été initialisée !");

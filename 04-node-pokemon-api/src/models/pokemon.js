@@ -28,6 +28,13 @@ module.exports = (sequelize, DataTypes) => {
             types: {
                 type: DataTypes.STRING,
                 allowNull: false,
+                // Traitement des communications entre API et Db (format db = string et API = ["", ""]) géré par sequelize avec getter et setter
+                get() {
+                    return this.getDataValue("types").split(",");
+                },
+                set(types) {
+                    this.setDataValue("types", types.join());
+                },
             },
         },
         {
