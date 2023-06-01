@@ -1,7 +1,8 @@
 const express = require("express"); // recherche dépendance express
-const { success } = require("./helper"); // appel méthodes success dans helper (gestion success et error)
-const morgan = require("morgan"); // import du package Morgan (suivi log des requetes HTTP)
+const { success, getUniqueId } = require("./helper"); // appel méthodes success dans helper (gestion success et error)
+const morgan = require("morgan"); // import du package Morgan (suivi log des requetes HTTP status code etc...)
 const favicon = require("serve-favicon"); // import du package favicon
+const bodyParser = require("body-parser"); //import package body parser (stringify des res JSON)
 const pokemons = require("./mock-pokemon");
 const app = express(); // création server express
 const port = 3000; // définition du port sur lequel toune l'app
@@ -13,12 +14,14 @@ const port = 3000; // définition du port sur lequel toune l'app
 //     next();
 // });
 // Middleswares combinés
-app.use(favicon(__dirname + "/favicon.ico")).use(morgan("dev")); // à placer en haut du fichier poour etre actif sur toutes les fonctions appelées ensuite
+app.use(favicon(__dirname + "/favicon.ico"))
+    .use(morgan("dev"))
+    .use(bodyParser.json()); // à placer en haut du fichier poour etre actif sur toutes les fonctions appelées ensuite
 
 // info page home :
 app.get("/", (req, res) => res.send("Hello, Express"));
 
-// Profil pokemon selon id parametre
+// Profil pokemon selon id parametre :
 app.get(`/api/pokemons/:id`, (req, res) => {
     const id = parseInt(req.params.id);
     const pokemon = pokemons.find((pokemon) => pokemon.id === id);
@@ -31,5 +34,16 @@ app.get("/api/pokemons", (req, res) => {
     const message = "La liste complète des pokémons a bien été récupérée.";
     res.json(success(message, pokemons));
 });
+
+// POst new pokemon - parse des infos body avec body parser - middleware
+app.post("/api/pokemons", (req, res) => {
+    const id = getUniqueId(pokemons);
+    const pokemonCreated = { ...req.body, ...{ id: id, created: new Date() } };
+    pokemons.push(pokemonCreated);
+    const message = `Le pokemon ${pokemonCreated.name} a bien été créé.`;
+    res.json(success(message, pokemonCreated));
+    console.log(pokemonCreated);
+});
+
 // Mise en place écoute serveur sur port définit et log du ${port} :
 app.listen(port, () => console.log(`Application Node démarrée sur http://localhost:${port}/...`)); // démarrage api rest sur port 3000 et renvoi du log
