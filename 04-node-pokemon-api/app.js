@@ -3,7 +3,7 @@ const { success, getUniqueId } = require("./helper"); // appel méthodes success
 const morgan = require("morgan"); // import du package Morgan (suivi log des requetes HTTP status code etc...)
 const favicon = require("serve-favicon"); // import du package favicon
 const bodyParser = require("body-parser"); //import package body parser (stringify des res JSON)
-const pokemons = require("./mock-pokemon");
+let pokemons = require("./mock-pokemon");
 const app = express(); // création server express
 const port = 3000; // définition du port sur lequel toune l'app
 
@@ -35,14 +35,33 @@ app.get("/api/pokemons", (req, res) => {
     res.json(success(message, pokemons));
 });
 
-// POst new pokemon - parse des infos body avec body parser - middleware
+// Post new pokemon - parse des infos body avec body parser - middleware
 app.post("/api/pokemons", (req, res) => {
     const id = getUniqueId(pokemons);
     const pokemonCreated = { ...req.body, ...{ id: id, created: new Date() } };
     pokemons.push(pokemonCreated);
     const message = `Le pokemon ${pokemonCreated.name} a bien été créé.`;
     res.json(success(message, pokemonCreated));
-    console.log(pokemonCreated);
+});
+
+// Put pokemon - modification
+app.put("/api/pokemons/:id", (req, res) => {
+    const id = parseInt(req.params.id);
+    const pokemonUpdated = { ...req.body, id: id };
+    pokemons = pokemons.map((pokemon) => {
+        return pokemon.id === id ? pokemonUpdated : pokemon;
+    });
+    const message = `Le pokémon ${pokemonUpdated.name} a bien été modifié.`;
+    res.json(success(message, pokemonUpdated));
+});
+
+// DELETE pokemon :
+app.delete("/api/pokemons/:id", (req, res) => {
+    const id = parseInt(req.params.id);
+    const pokemonDeleted = pokemons.find((pokemon) => pokemon.id === id);
+    pokemons.filter((pokemon) => pokemon.id !== id);
+    const message = `Le pokémon ${pokemonDeleted.name} a bien été supprimé.`;
+    res.json(success(message, pokemonDeleted));
 });
 
 // Mise en place écoute serveur sur port définit et log du ${port} :
