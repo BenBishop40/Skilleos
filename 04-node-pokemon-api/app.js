@@ -8,7 +8,7 @@ const sequelize = require("./src/db/sequelize"); // import module sequelize (imp
 const app = express(); // création server express
 const port = 3000; // définition du port sur lequel toune l'app
 
-// Middleswares combinés
+// Middleswares combinés lié à app:
 app.use(favicon(__dirname + "/favicon.ico"))
     .use(morgan("dev"))
     .use(bodyParser.json()); // à placer en haut du fichier poour etre actif sur toutes les fonctions appelées ensuite
@@ -22,6 +22,12 @@ require("./src/routes/findPokemonByPk")(app); // écriture plus concise que get 
 require("./src/routes/createPokemon")(app);
 require("./src/routes/updatePokemon")(app);
 require("./src/routes/deletePokemon")(app);
+
+// On ajoute la gestion des errors 404 : 
+app.use(({ res }) => {
+    const message = `Impossible de trouver la ressource demandée ! Vous pouvez essayer une autre URL.`;
+    res.status(404).json({ message });
+});
 
 // Mise en place écoute serveur sur port définit et log du ${port} :
 app.listen(port, () => console.log(`Application Node démarrée sur http://localhost:${port}/...`)); // démarrage api rest sur port 3000 et renvoi du log

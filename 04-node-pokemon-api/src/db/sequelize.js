@@ -14,7 +14,7 @@ const sequelize = new Sequelize("pokedex", "root", "", {
     },
     logging: false,
 });
-// Crétaion model Pokemon (permet de créer ensuite les entités selon ce modèle)
+// Création model Pokemon (permet de créer ensuite les entités selon ce modèle)
 const Pokemon = PokemonModel(sequelize, DataTypes);
 
 // Init de la db avec création des pokemons selon model sequelize
