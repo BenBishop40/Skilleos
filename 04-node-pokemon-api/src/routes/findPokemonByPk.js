@@ -1,7 +1,8 @@
-const { Pokemon } = require("../db/sequelize"); // import du m
+const { Pokemon } = require("../db/sequelize"); // import du model Sequelize Pokemon
+const auth = require("../auth/auth");
 // Module endpoint avec méhtode findAll propre à sequelize
 module.exports = (app) => {
-    app.get("/api/pokemons/:id", (req, res) => {
+    app.get("/api/pokemons/:id", auth, (req, res) => {
         Pokemon.findByPk(req.params.id)
             .then((pokemon) => {
                 if (pokemon === null) {

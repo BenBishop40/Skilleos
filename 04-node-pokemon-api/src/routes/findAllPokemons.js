@@ -1,10 +1,11 @@
 const { Pokemon } = require("../db/sequelize"); // import du module Pokemeon de Sequelize
 const { Op } = require("sequelize"); // import opérateur sequelize
+const auth = require("../auth/auth"); // import middleware auth.js
 // Module endpoint avec méthode findAndCountAll propre à sequelize
 module.exports = (app) => {
-    app.get("/api/pokemons", (req, res) => {
+    app.get("/api/pokemons", auth, (req, res) => {
         // on extrait le param query name de l'URL pr recherche sur name
-        if (req.query.name.length) {
+        if (req.query.name) {
             const name = req.query.name;
             const limit = parseInt(req.query.limit) || 5;
             // check si param nam > 2 caract pr lancer la requete (economise l API)
