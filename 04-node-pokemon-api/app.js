@@ -18,7 +18,7 @@ sequelize.initDb(); // init de la Db Sequelize
 // Endpoints :
 const findAllPokemons = require("./src/routes/findAllPokemons"); //import du module associée à variable findAllPokemons
 findAllPokemons(app); // la variable est une fonction qui prend app comme argument
-require("./src/routes/findPokemonByPk")(app); // écriture plus concise que get all pokemon ci dessus
+require("./src/routes/findPokemonByPk")(app); // écriture plus concise que get all pokemon ci dessus (pas besoin de nommer une var)
 require("./src/routes/createPokemon")(app);
 require("./src/routes/updatePokemon")(app);
 require("./src/routes/deletePokemon")(app);
